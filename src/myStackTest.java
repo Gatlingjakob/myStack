@@ -8,9 +8,9 @@ import static org.junit.Assert.*;
  */
 public class myStackTest {
 
-    myStack stack = new myStack(5);
-    myStack emptyStack = new myStack(0);
-    myStack fullStack = new myStack(3);
+    myStack stack = new myStack();
+    myStack emptyStack = new myStack();
+    myStack fullStack = new myStack();
 
     @org.junit.Before
     public void setUp() throws Exception {
@@ -26,22 +26,22 @@ public class myStackTest {
     @org.junit.Test
     public void push() throws Exception {
     stack.push(4);
-        long i = stack.peek();
+        Object i = stack.peek();
         assertEquals(i, 4);
     }
 
     @org.junit.Test
     public void pop() throws Exception {
-        long i= stack.pop();
+        Object i= stack.pop();
         assertEquals(i, 3);
-        long j =stack.peek();
+        Object j =stack.peek();
         assertEquals(j, 2);
 
     }
 
     @org.junit.Test
     public void peek() throws Exception {
-    long i = stack.peek();
+    Object i = stack.peek();
         assertEquals(i,3);
     }
 
@@ -51,10 +51,5 @@ public class myStackTest {
         assertEquals(empty, true);
     }
 
-    @org.junit.Test
-    public void isFull() throws Exception {
-        boolean full = fullStack.isFull();
-        assertEquals(full, true);
-    }
 
 }

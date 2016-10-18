@@ -1,58 +1,104 @@
-/**
- * Created by Jakob on 02-10-2016.
- */
 
-class myStack {
-    private int maxSize;
-    private long[] stackArray;
-    private int top;
-    //--------------------------------------------------------------
+         import java.util.Iterator;
+         import java.util.NoSuchElementException;
 
-    public myStack(int s) {
+public class myStack<E> implements Iterable<E> {
 
-        maxSize = s;
-        stackArray = new long[maxSize];
-        top = -1;
+    private int size;
+    private Node first;
+
+    private class Node{
+        Node next;
+        E item;
     }
 
-    public void push(long j) {
+    public myStack(){
 
-        stackArray[++top] = j;
+        first =null;
+        size=0;
+
     }
 
-    public long pop() {
-
-        return stackArray[top--];
+    public boolean isEmpty(){
+        return first == null;
     }
 
-    public long peek() {
-        return stackArray[top];
+    public void push(E item){
+
+        Node oldNode = first;
+
+        first=new Node();
+        first.item=item;
+        first.next=oldNode;
+        size++;
     }
 
-    public boolean isEmpty() {
-        return (top == -1);
-    }
+    public E pop(){
 
-    public boolean isFull() {
-        return (top == maxSize-1);
-    }
-
-}
-class StackApp
-{
-    public static void main(String[] args) {
-        myStack stack = new myStack(10);
-        stack.push(20);
-        stack.push(40);
-        stack.push(60);
-        stack.push(80);
-
-        while( !stack.isEmpty() ) {
-            long value = stack.pop();
-            System.out.print(value);
-            System.out.print(" ");
+        if(isEmpty()){
+            throw new RuntimeException("stack underflow");
         }
-        System.out.println("");
+
+        E item=first.item;
+        first=first.next;
+        size--;
+
+        return item;
+
+    }
+
+    public E peek(){
+
+        if(isEmpty()){
+            throw new RuntimeException("stack underflow");
+        }
+        return first.item;
+
+    }
+
+    public Iterator<E> iterator(){
+        return new ListIterator();
+    }
+
+    private class ListIterator implements Iterator<E>{
+
+        private Node currentNode = first;
+
+        public boolean hasNext() {
+
+            return currentNode != null;
+
+        }
+
+
+        public void remove() {
+
+            throw new UnsupportedOperationException("not allowed");
+
+        }
+
+        public E next() {
+
+            if(!(hasNext()))throw new NoSuchElementException();
+            E item = currentNode.item;
+            currentNode=currentNode.next;
+            return item;
+
+        }
+
+
+
+    }
+    public static void main(String[] args) {
+        myStack<String> s = new myStack<String>();
+        s.push("hello");
+        s.push("how");
+        s.push("are");
+        System.out.println(s.size);
+        System.out.println(s.pop());
+        s.push("you");
+        System.out.println("pop: " + s.pop());
+        System.out.println("size: " + s.size);
+
     }
 }
-
